@@ -1,2 +1,382 @@
-body { background: #f8f9fa; }
-img  { max-width: 100%; display: block; margin: 1rem 0; }
+/* — reset & base — */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body, html {
+  height: 100vh;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* — animated gradient BG — */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+body {
+  background: linear-gradient(-45deg, #9333ea, #2563eb, #ec4899);
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* — container & overlay — */
+.container {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.animated-background {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.1);
+  animation: bgPulse 10s ease-in-out infinite;
+}
+@keyframes bgPulse {
+  0%,100% { opacity: 0.1; }
+  50%     { opacity: 0.2; }
+}
+
+/* — floating elements — */
+.floating-elements {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-20px); }
+}
+@keyframes float-slow {
+  0%,100% { transform: translateY(0) rotate(0); }
+  50%     { transform: translateY(-30px) rotate(5deg); }
+}
+.floating-emoji {
+  position: absolute;
+  font-size: 2.5rem;
+  opacity: 0.2;
+  animation: float-slow 6s ease-in-out infinite;
+}
+.floating-shape {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: float 4s ease-in-out infinite;
+}
+.floating-shape.yellow { background: #facc15; }
+.floating-shape.pink   { background: #ec4899; }
+.floating-shape.green  { background: #22c55e; }
+.floating-shape.purple { background: #a855f7; }
+
+/* — main card — */
+@keyframes bounce-in {
+  0%   { transform: scale(0.3); opacity: 0; }
+  50%  { transform: scale(1.05); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.main-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.meme-generator {
+  position: relative; /* for overlay */
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 1rem;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  width: 100%;
+  max-width: 28rem;
+  animation: bounce-in 0.6s ease-out;
+}
+
+/* — header — */
+.header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.title {
+  font-size: 2.25rem;
+  font-weight: 900;
+  background: linear-gradient(to right, #9333ea, #ec4899, #2563eb);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient-shift 6s ease infinite;
+}
+.subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+.sparkle, .zap {
+  animation: wiggle 1s ease-in-out infinite;
+}
+.zap {
+  animation-delay: 0.5s;
+}
+@keyframes wiggle {
+  0%,100% { transform: rotate(-3deg); }
+  50%     { transform: rotate(3deg); }
+}
+
+/* — form — */
+.form-container {
+  width: 100%;
+}
+#memeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* — upload section — */
+.upload-section {
+  position: relative;
+}
+.file-input {
+  display: none;
+}
+.upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 2px dashed #c084fc;
+  border-radius: 0.5rem;
+  background: linear-gradient(to right, #faf5ff, #fdf2f8);
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  transform-origin: center;
+}
+.upload-label:hover {
+  background: linear-gradient(to right, #f3e8ff, #fce7f3);
+  border-color: #a855f7;
+  transform: scale(1.05);
+}
+.upload-icon {
+  font-size: 1.5rem;
+  animation: bounce 0.6s ease infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-5px); }
+}
+.upload-text {
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+/* — text inputs — */
+.input-group {
+  position: relative;
+}
+.text-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border: 2px solid;
+  border-radius: 0.5rem;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  outline: none;
+}
+.top-input {
+  background: linear-gradient(to right, #dbeafe, #ecfeff);
+  border-color: #93c5fd;
+  color: #1e40af;
+}
+.top-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.2);
+}
+.bottom-input {
+  background: linear-gradient(to right, #dcfce7, #ecfdf5);
+  border-color: #86efac;
+  color: #166534;
+}
+.bottom-input:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34,197,94,0.2);
+}
+.input-dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+.yellow-dot { background: #facc15; }
+.pink-dot  { background: #f472b6; animation-delay: 0.5s; }
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.5; }
+}
+
+/* — generate button — */
+.generate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(to right, #9333ea, #ec4899, #dc2626);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+  transform-origin: center;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+.generate-btn:hover {
+  background: linear-gradient(to right, #7c3aed, #db2777, #b91c1c);
+  transform: scale(1.05);
+}
+.generate-btn:active {
+  transform: scale(0.95);
+}
+@keyframes pulse-glow {
+  0%,100% { box-shadow: 0 0 20px rgba(59,130,246,0.5); }
+  50%     { box-shadow: 0 0 40px rgba(59,130,246,0.8); }
+}
+
+/* — decorative dots — */
+.decorative-dot {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  animation: ping 2s ease-in-out infinite;
+  opacity: 0.75;
+}
+.top-left    { top: -8px; left: -8px;   background: #facc15; }
+.bottom-right{ bottom: -8px; right: -8px; background: #f472b6; animation-delay: 1s; }
+@keyframes ping {
+  0%   { transform: scale(1); opacity: 1; }
+  75%,100% { transform: scale(2); opacity: 0; }
+}
+
+/* — background effects — */
+.bg-effects {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: float 4s ease-in-out infinite;
+}
+.bg-circle.white {
+  top: 25%; left: 25%;
+  width: 128px; height: 128px;
+  background: #fff;
+}
+.bg-circle.yellow {
+  top: 75%; right: 25%;
+  width: 96px; height: 96px;
+  background: #facc15;
+  animation: float-slow 6s ease-in-out infinite;
+}
+.bg-circle.pink {
+  bottom: 25%; left: 33%;
+  width: 112px; height: 112px;
+  background: #f9a8d4;
+  animation-delay: 2s;
+}
+
+/* — image preview — */
+#previewContainer {
+  margin-top: 1.5rem;
+}
+#previewImage {
+  display: block;
+  width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* — loader overlay inside card — */
+.loader-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10;
+  border-radius: 1rem;
+}
+.loader-overlay .loading-emoji {
+  font-size: 4rem;
+  animation: laugh 0.8s ease-in-out infinite;
+}
+.loader-overlay .loading-text {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: #333;
+}
+@keyframes laugh {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.5); }
+}
+
+/* — result container frame — */
+#resultContainer {
+  margin-top: 2rem;
+}
+#resultContainer .result-frame {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px);
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 12rem;
+}
+#resultContainer img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* — responsive tweaks — */
+@media (max-width: 640px) {
+  .meme-generator {
+    padding: 2rem;
+  }
+  .title {
+    font-size: 1.875rem;
+  }
+  .floating-emoji {
+    font-size: 2rem;
+  }
+}

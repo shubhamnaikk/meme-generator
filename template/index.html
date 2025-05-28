@@ -1,27 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Meme Generator</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/style.css"/>
+  <link rel="stylesheet" href="/static/css/style.css" />
 </head>
-<body class="p-4">
-  <h1>Create Your Meme</h1>
-  <form action="/generate" method="post" enctype="multipart/form-data">
-    <div class="mb-3">
-      <label class="form-label">Image</label>
-      <input type="file" name="image" class="form-control" required>
+<body>
+  <div class="container">
+    <div class="animated-background"></div>
+    <div class="floating-elements">
+      <!-- your floating emojis & shapes… -->
     </div>
-    <div class="mb-3">
-      <label class="form-label">Top Text</label>
-      <input type="text" name="top_text" class="form-control" maxlength="50">
+
+    <div class="main-content">
+      <div class="meme-generator">
+
+        <!-- TRANSPARENT LOADER OVERLAY -->
+        <div id="loaderOverlay" class="loader-overlay">
+          <div class="loading-emoji">😂</div>
+          <div class="loading-text">Generating your meme…</div>
+        </div>
+
+        <div class="header">
+          <h1 class="title">Create Your Meme</h1>
+          <div class="subtitle">
+            <span class="sparkle">✨</span>
+            <span>Make it viral!</span>
+            <span class="zap">⚡</span>
+          </div>
+        </div>
+
+        <form id="memeForm" class="form-container" enctype="multipart/form-data">
+          <!-- File Upload + PREVIEW -->
+          <div class="upload-section">
+            <input
+              type="file" id="image-upload" name="image" accept="image/*"
+              class="file-input" required
+            />
+            <label for="image-upload" class="upload-label">
+              <span class="upload-icon">📁</span>
+              <span class="upload-text">Choose your template</span>
+            </label>
+          </div>
+          <div id="previewContainer">
+            <img id="previewImage" class="meme-result" style="display:none;" />
+          </div>
+
+          <!-- Top Text -->
+          <div class="input-group">
+            <input
+              type="text" name="top_text" placeholder="Top Text"
+              class="text-input top-input"
+            />
+            <div class="input-dot yellow-dot"></div>
+          </div>
+
+          <!-- Bottom Text -->
+          <div class="input-group">
+            <input
+              type="text" name="bottom_text" placeholder="Bottom Text"
+              class="text-input bottom-input"
+            />
+            <div class="input-dot pink-dot"></div>
+          </div>
+
+          <!-- Generate Button -->
+          <button type="submit" class="generate-btn">
+            <span class="btn-icon">⬇️</span>
+            <span class="btn-text">Generate Meme</span>
+            <span class="btn-sparkle">✨</span>
+          </button>
+        </form>
+
+        <!-- RESULT goes here -->
+        <div id="resultContainer"></div>
+
+        <div class="decorative-dot top-left"></div>
+        <div class="decorative-dot bottom-right"></div>
+      </div>
     </div>
-    <div class="mb-3">
-      <label class="form-label">Bottom Text</label>
-      <input type="text" name="bottom_text" class="form-control" maxlength="50">
+
+    <div class="bg-effects">
+      <!-- your blurred bg-circles… -->
     </div>
-    <button class="btn btn-primary">Generate Meme</button>
-  </form>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form      = document.getElementById("memeForm");
+    const loader    = document.getElementById("loaderOverlay");
+    const preview   = document.getElementById("previewImage");
+    const previewCt = document.getElementById("previewContainer");
+    const resultCt  = document.getElementById("resultContainer");
+    const fileInput = document.getElementById("image-upload");
+
+    // 1) Show image preview when user picks a file
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (!file) {
+        preview.style.display = "none";
+        return;
+      }
+      const url = URL.createObjectURL(file);
+      preview.src = url;
+      preview.style.display = "block";
+      // clear any previous result
+      resultCt.innerHTML = "";
+    });
+
+    // 2) Handle form submit
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      loader.style.display = "flex";        // show transparent overlay
+      resultCt.innerHTML = "";              // clear old result
+
+      const data = new FormData(form);
+      try {
+        const resp = await fetch("/generate", { method: "POST", body: data });
+        if (!resp.ok) throw new Error(resp.statusText);
+        const blob = await resp.blob();
+        const url  = URL.createObjectURL(blob);
+
+        // hide preview, show generated meme
+        preview.style.display = "none";
+        resultCt.innerHTML = `<img src="${url}" class="meme-result"/>`;
+        resultCt.scrollIntoView({ behavior: "smooth" });
+
+      } catch (err) {
+        alert("😢 Oops! Couldn’t generate the meme.");
+        console.error(err);
+      } finally {
+        loader.style.display = "none";      // hide overlay
+      }
+    });
+  });
+  </script>
 </body>
 </html>

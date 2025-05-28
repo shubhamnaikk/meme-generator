@@ -5,7 +5,6 @@ from fastapi.responses import StreamingResponse, HTMLResponse
 from starlette.requests import Request
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
-import textwrap
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")

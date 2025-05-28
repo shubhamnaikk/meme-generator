@@ -3,8 +3,9 @@
 ![Meme Generator UI](ss1.png)
 
 A vibrant, interactive web app for creating custom memes with top and bottom captions. Upload your own image, preview it live, and generate a meme—all in one seamless UI.
-(ss2.png)
-(ss3.png)
+
+![Meme Generator UI](ss2.png)
+![Meme Generator UI](ss3.png)
 ---
 
 ## 🚀 Features

@@ -11,7 +11,6 @@ A vibrant, interactive web app for creating custom memes with top and bottom cap
 * **Live Preview**: Instantly see your uploaded image before generating.
 * **Custom Captions**: Add top and bottom text with automatic resizing to fit.
 * **Transparent Loader**: Semi‑transparent overlay with a pulsing emoji while processing.
-* **Persistent Storage**: Every meme is saved and can be served later.
 * **Animated UI**: Gradient background, floating emojis, frosted‑glass card, and smooth button animations.
 
 ---

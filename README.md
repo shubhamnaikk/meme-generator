@@ -31,17 +31,12 @@ A vibrant, interactive web app for creating custom memes with top and bottom cap
    source venv/bin/activate
    pip install -r requirements.txt
    ```
-3. **Create storage folder**
-
-   ```bash
-   mkdir -p static/memes
-   ```
-4. **Run locally**
+3. **Run locally**
 
    ```bash
    uvicorn main:app --reload
    ```
-5. **Open** `http://127.0.0.1:8000` in your browser.
+4. **Open** `http://127.0.0.1:8000` in your browser.
 
 ---
 
@@ -57,7 +52,9 @@ A vibrant, interactive web app for creating custom memes with top and bottom cap
 │   └── memes/         # Generated meme PNGs
 ├── template/          # Jinja2 template for local testing
 │   └── index.html
-└── screenshot.png     # Demo screenshot for README
+└── ss1.png     # Demo screenshot for README
+└── ss2.png
+└── ss3.png
 ```
 
 ![Meme Generator UI](ss2.png)

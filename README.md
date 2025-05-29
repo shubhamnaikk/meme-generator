@@ -44,11 +44,11 @@ A vibrant, interactive web app for creating custom memes with top and bottom cap
 ```
 ├── main.py            # FastAPI backend
 ├── requirements.txt   # Python packages
-├── static/            # Public assets + saved memes
+├── static/            # Public assets
 │   ├── css/style.css
 │   ├── js/script.js
 │   ├── fonts/Impact.ttf
-│   └── memes/         # Generated meme PNGs
+│   
 ├── template/          # Jinja2 template for local testing
 │   └── index.html
 └── ss1.png     # Demo screenshot for README
